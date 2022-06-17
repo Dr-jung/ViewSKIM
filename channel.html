@@ -1,17 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+        <script type="text/javascript">
+
+        $(document).ready(function () {
+        $("#linkURL").html("");
+        });
+
+        function makeUUID(){
+            let UUID = $("#UUID").val();
+            let linkUUID_data = `
+               <a href='kakaoplus://plusfriend/home/@${UUID}'> ${UUID} </a> <br>
+            `
+            $("#linkUUID").append(linkUUID_data);
+        }
+
+        function makePEID(){
+            let PEID = $("#PEID").val();
+            let linkPEID_data = `
+               <a href='kakaoplus://plusfriend/home/${PEID}'> ${PEID} </a> <br>
+            `
+            $("#linkPEID").append(linkPEID_data);
+        }
+
+        </script>
+    <style type="text/css">
+        .container{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width:80%;
+            margin-right:10%;
+            margin-left:10%;
+        }
+        .linkSKIM{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+    <div class="input-group">
+        <span class="input-group-text">UUID</span>
+        <input type="text" class="form-control" id="UUID">
+        <button onclick="makeUUID()" type="button" class="btn btn-primary">채널이동</button>
+    </div>
+    <div class="linkUUID", id="linkUUID">
+    </div>
+    <div class="input-group">
+    <span class="input-group-text">Profile/Encorded ID</span>
+    <input type="text" class="form-control" id="PEID">
+    <button onclick="makePEID()" type="button" class="btn btn-primary">채널이동</button>
+    </div>
+    <div class="linkPEID", id="linkPEID">
+    </div>
+    </div>
+
 <a href='kakaoplus://plusfriend/portal'> 채널 포털로 이동 </a> kakaoplus://plusfriend/portal <br>
 <a href='kakaoplus://plusfriend/list'> 채널 목록으로 이동 </a> kakaoplus://plusfriend/list <br>
 <br>
-<a href='kakaoplus://plusfriend/friend/@qa_a1'> 채널 홈 이동 scheme_friend_using_uuid </a> kakaoplus://plusfriend/friend/@qa_a1 <br>
-<a href='kakaoplus://plusfriend/home/@qa_a1'> 채널 홈 이동 scheme_home_using_uuid </a> kakaoplus://plusfriend/home/@qa_a1 <br>
-<a href='kakaoplus://plusfriend/home/@김채널스토어'> 채널 홈 이동 scheme_home_using_uuid_kor </a> kakaoplus://plusfriend/home/@김채널스토어 <br>
-<a href='kakaoplus://plusfriend/home/362453702'> 채널 홈 이동 scheme_home_using_profile_id </a> kakaoplus://plusfriend/home/362453702 <br>
+<a href='kakaoplus://plusfriend/friend/@qa_a1'> 채널 홈 이동(friend_uuid) </a> kakaoplus://plusfriend/friend/@qa_a1 <br>
+<a href='kakaoplus://plusfriend/home/@qa_a1'> 채널 홈 이동(home_uuid) </a> kakaoplus://plusfriend/home/@qa_a1 <br>
+<a href='kakaoplus://plusfriend/home/@김채널스토어'> 채널 홈 이동(home_uuid_kor) </a> kakaoplus://plusfriend/home/@김채널스토어 <br>
+<a href='kakaoplus://plusfriend/home/362453702'> 채널 홈 이동(profile_id) </a> kakaoplus://plusfriend/home/362453702 <br>
+<a href='kakaoplus://plusfriend/home/_Zxemas'> 채널 홈 이동(encoded_id) </a> kakaoplus://plusfriend/home/_Zxemas <br>
 <br>
 <a href='kakaoplus://plusfriend/home/@qa_a1/add/'> 채널 홈 추가(home_uuid) </a> kakaoplus://plusfriend/home/@qa_a1/add <br>
 <a href='kakaoplus://plusfriend/home/@김채널스토어/add/'> 채널 홈 추가(home_uuid_kor) </a> kakaoplus://plusfriend/home/@김채널스토어/add/ <br>
@@ -19,6 +89,7 @@
 <a href='kakaoplus://plusfriend/home/_Zxemas/add/'> 채널 홈 추가(encoded_id) </a> kakaoplus://plusfriend/home/_Zxemas/add/ <br>
 <a href='kakaoplus://plusfriend/home/362453702/add/?click_id=123&ad_service_id=132'> 채널 홈 추가(profile_id_extra) </a> kakaoplus://plusfriend/home/362453702/add/?click_id=123&ad_service_id=132 <br>
 <br>
+
 
 <!--kakaoplus://plusfriend/home/@qa002?action=block-->
 <!--kakaoplus://plusfriend/home/@김채널스토어/block-->
