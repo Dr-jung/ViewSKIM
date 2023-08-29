@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+        <script type="text/javascript">
+
+        $(document).ready(function () {
+        $("#linkURL").html("");
+        });
+
+        function makeSCHEME(){
+            let nav_id = $("#nav_id").val();
+            alert(nav_id);
+            let linkSCHEME_data = `
+               <a href='orep://home/nav/${nav_id}'> ${nav_id} </a> orep://home/nav/${nav_id} <br>
+               <a href='kakaogame431504://home/nav/${nav_id}'> ${nav_id} </a> kakaogame431504://home/nav/${nav_id} <br>
+            `
+            $("#linkSCHEME").append(linkSCHEME_data);
+        }
+
+        </script>
+    <style type="text/css">
+        .container{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width:80%;
+            margin-right:10%;
+            margin-left:10%;
+        }
+        .linkSCHEME{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <div class="container">
+        <div class="input-group">
+            <span class="input-group-text">탐색탭 ID입력</span>
+            <input type="text" class="form-control" id="nav_id">
+            <button onclick="makeSCHEME()" type="button" class="btn btn-primary">스킴등록</button>
+        </div>
+        <div class="linkSCHEME", id="linkSCHEME">
+        </div>
+    </div>
+
+<br> Prod 스킴 테스트<br>
+
+<a href='orep://home'> 홈탭딥링크(내부) </a> orep://home <br>
+<a href='kakaogame431504://home'> 홈탭딥링크(외부) </a> kakaogame431504://home  <br>
+
+<a href='orep://home/short'> 숏만들기탭딥링크(내부) </a> orep://home/short <br>
+<a href='kakaogame431504://home/short'> 숏만들기탭딥링크(외부) </a> kakaogame431504://home/short <br>
+
+<a href='orep://home/event'> 혜택탭딥링크(내부) </a> orep://home/event <br>
+<a href='kakaogame431504://home/event'> 혜택탭딥링크(외부) </a> kakaogame431504://home/event <br>
+
+<a href='orep://home/more'> 더보기탭딥링크(내부) </a> orep://home/more <br>
+<a href='kakaogame431504://home/more'> 더보기탭딥링크(내부) </a> kakaogame431504://home/more <br>
+
+</body>
+</html>
