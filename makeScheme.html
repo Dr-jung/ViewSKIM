@@ -1,64 +1,117 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <title>Firebase Firestore Scheme 저장 및 삭제 예제</title>
+    <!-- Firebase SDKs: App and Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-              crossorigin="anonymous">
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
 
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                crossorigin="anonymous"></script>
-
-        <!-- 구글폰트 -->
-        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
-
-        <script type="text/javascript">
-
-        $(document).ready(function () {
-        $("#linkURL").html("");
-        });
-
-        function makeSKIM(){
-            let SKIM = $("#SKIM").val();
-            alert(SKIM);
-            let linkSKIM_data = `
-               <a href='${SKIM}'> ${SKIM} </a> <br>
-            `
-            $("#linkSKIM").append(linkSKIM_data);
-        }
-
-        </script>
-    <style type="text/css">
-        .container{
-            margin-top: 20px;
-            margin-bottom: 20px;
-            width:80%;
-            margin-right:10%;
-            margin-left:10%;
-        }
-        .linkSKIM{
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-    </style>
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-    <div class="input-group">
-        <span class="input-group-text">스킴입력</span>
-        <input type="text" class="form-control" id="SKIM">
-        <button onclick="makeSKIM()" type="button" class="btn btn-primary">스킴등록</button>
-    </div>
-    <div class="linkSKIM", id="linkSKIM">
-    </div>
+        <div class="input-group" id="schemeSection">
+            <span class="input-group-text">스킴입력</span>
+            <input class="form-control" type="text" id="schemeInput" placeholder="Scheme 입력">
+            <button class="btn btn-primary" onclick="saveScheme()">저장</button>
+        </div>
+        <div>
+            <text>저장된 Scheme들:</text>
+            <ul id="schemeList"></ul>
+        </div>
     </div>
 
+    <script>
+        // Firebase 구성 설정
+        const firebaseConfig = {
+            // Firebase 설정을 넣어주세요
+            apiKey: "AIzaSyCdeo-SgtiQtS4BWxxf6sxs2m5l3znOl3Q",
+            authDomain: "dr-jung-db.firebaseapp.com",
+            projectId: "dr-jung-db",
+            storageBucket: "dr-jung-db.firebasestorage.app",
+            messagingSenderId: "721752614455",
+            appId: "1:721752614455:web:5d4e52e82da54835e781b2",
+            measurementId: "G-7H91PGFXYT"
+        };
+
+        // Firebase 초기화
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Firestore에 Scheme 저장
+        function saveScheme() {
+            const scheme = document.getElementById("schemeInput").value;
+            if (scheme) {
+                db.collection("schemes").add({ scheme })
+                    .then(() => {
+                        document.getElementById("schemeInput").value = ""; // 입력 필드 초기화
+                        loadSchemes(); // Scheme 목록 다시 불러오기
+                    })
+                    .catch((error) => {
+                        console.error("Error adding document: ", error);
+                    });
+            }
+        }
+
+        // Firestore에서 Scheme 불러오기 및 삭제 버튼 추가
+        function loadSchemes() {
+            const schemeList = document.getElementById("schemeList");
+            schemeList.innerHTML = ""; // 목록 초기화
+
+            db.collection("schemes").get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const schemeData = doc.data().scheme;
+                        const listItem = document.createElement("li");
+
+                        // Scheme 이름을 링크로 변환
+                        const link = document.createElement("a");
+                        link.href = schemeData;
+                        link.textContent = schemeData;
+                        //link.target = "_blank";  // 새로운 탭에서 링크 열기
+                        listItem.appendChild(link);
+
+                        // 삭제 버튼 생성
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "삭제";
+                        deleteButton.onclick = () => deleteScheme(doc.id); // 삭제 함수 호출
+                        deleteButton.classList.add("btn", "btn-secondary", "btn-sm", "ml-2"); // Bootstrap 클래스 추가
+
+                        listItem.appendChild(deleteButton); // 삭제 버튼 추가
+                        schemeList.appendChild(listItem); // 목록에 추가
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error getting documents: ", error);
+                });
+        }
+
+        // Firestore에서 Scheme 삭제
+        function deleteScheme(id) {
+            db.collection("schemes").doc(id).delete()
+                .then(() => {
+                    console.log("Document successfully deleted!");
+                    loadSchemes(); // Scheme 목록 다시 불러오기
+                })
+                .catch((error) => {
+                    console.error("Error removing document: ", error);
+                });
+        }
+
+        // 페이지 로드 시 Scheme 목록 불러오기
+        loadSchemes();
+    </script>
 </body>
 </html>
